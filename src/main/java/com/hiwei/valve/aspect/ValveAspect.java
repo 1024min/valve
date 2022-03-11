@@ -57,7 +57,6 @@ public class ValveAspect {
             }
             return point.proceed(point.getArgs());
         } catch (BlockException e) {
-            Object[] args = point.getArgs();
             //反射调用
             Class<?>[] classes = valveResource.blockHandlerClass();
             for (Class<?> aClass : classes) {

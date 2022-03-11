@@ -59,7 +59,6 @@ public class SlidingWindow implements TrafficShapingController {
         for (AtomicInteger window : windows) {
             sum += window.get();
         }
-        System.out.println("当前QPS:"+sum);
         if (sum > threshold) {
             return true;
         }
