@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(ValveAspect.class)
 @EnableConfigurationProperties(ValveProperties.class)
-@ConditionalOnProperty(prefix = "spring.valve", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.valve", name = "enable",havingValue="true",matchIfMissing = true)
 public class ValveAutoConfiguration {
 }
