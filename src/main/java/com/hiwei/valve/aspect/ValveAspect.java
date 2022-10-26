@@ -22,6 +22,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 限流切面
+ * @author
+ */
 @Aspect
 @Component
 public class ValveAspect {

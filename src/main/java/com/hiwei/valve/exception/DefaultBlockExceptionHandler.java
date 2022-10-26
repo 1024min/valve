@@ -4,6 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+/**
+ * 默认限流异常handler
+ * @author
+ */
 public class DefaultBlockExceptionHandler implements BlockExceptionHandler{
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {

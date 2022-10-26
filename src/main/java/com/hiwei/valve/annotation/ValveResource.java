@@ -6,6 +6,10 @@ import com.hiwei.valve.exception.DefaultFallBackHandler;
 
 import java.lang.annotation.*;
 
+/**
+ * 限流注解
+ * @author
+ */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited

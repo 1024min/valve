@@ -8,6 +8,10 @@ import org.springframework.http.MediaType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 默认兜底异常handler
+ * @author
+ */
 public class DefaultFallBackHandler implements FallBackHandler{
     @Override
     public void handle(HttpServletRequest res, HttpServletResponse rsp, Exception e) throws Exception {

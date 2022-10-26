@@ -4,6 +4,10 @@ import com.hiwei.valve.controller.TrafficShapingController;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * 令牌桶
+ * @author
+ */
 public class LeakyBucket implements TrafficShapingController {
 
     private int count;

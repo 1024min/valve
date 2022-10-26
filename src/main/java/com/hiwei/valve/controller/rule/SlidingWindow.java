@@ -4,6 +4,10 @@ import com.hiwei.valve.controller.TrafficShapingController;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 滑动窗口
+ * @author
+ */
 public class SlidingWindow implements TrafficShapingController {
     private AtomicInteger[] windows = {new AtomicInteger(0),new AtomicInteger(0),new AtomicInteger(0)
             ,new AtomicInteger(0),new AtomicInteger(0),new AtomicInteger(0),new AtomicInteger(0)
