@@ -49,6 +49,8 @@ public class ValveAspect {
                 }else if(valveResource.valveType()== ValveType.QUEUE_WAIT){
                     trafficShapingController = new LeakyBucket(valveResource.value(),valveResource.timeout());
                     rules.put(currentMethod,trafficShapingController);
+                }else{
+                    throw new RuntimeException("nonsupport valve type:"+valveResource.valveType());
                 }
             }
             boolean canPass = trafficShapingController.canPass();
@@ -56,33 +58,37 @@ public class ValveAspect {
                 throw new BlockException();
             }
             return point.proceed(point.getArgs());
-        } catch (BlockException e) {
-            //反射调用
-            Class<?>[] classes = valveResource.blockHandlerClass();
-            for (Class<?> aClass : classes) {
-                try {
-                    Object handler = aClass.newInstance();
-                    Method declaredMethod = aClass.getMethod("handle",HttpServletRequest.class,HttpServletResponse.class,BlockException.class);
-                    declaredMethod.invoke(handler,request,response,e);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }catch (Exception e) {
-            //反射调用
-            Class<?>[] classes = valveResource.fallbackClass();
-            for (Class<?> aClass : classes) {
-                try {
-                    Object handler = aClass.newInstance();
-                    Method declaredMethod = aClass.getMethod("handle",HttpServletRequest.class,HttpServletResponse.class,BlockException.class);
-                    declaredMethod.invoke(handler,request,response,e);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
+        } catch (Exception e) {
+            exceptionHandle(request, response, e, valveResource);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 异常兜底处理
+     * @param request
+     * @param response
+     * @param e
+     * @param valveResource
+     */
+    private void exceptionHandle(HttpServletRequest request, HttpServletResponse response, Exception e, ValveResource valveResource) {
+        //反射调用
+        Class<?>[] classes;
+        if(e instanceof BlockException){
+            classes = valveResource.blockHandlerClass();
+        }else{
+            classes = valveResource.fallbackClass();
+        }
+        for (Class<?> aClass : classes) {
+            try {
+                Object handler = aClass.newInstance();
+                Method declaredMethod = aClass.getMethod("handle",HttpServletRequest.class,HttpServletResponse.class, BlockException.class);
+                declaredMethod.invoke(handler,request,response,e);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
